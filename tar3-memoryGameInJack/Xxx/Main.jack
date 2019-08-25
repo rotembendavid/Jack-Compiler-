@@ -1,0 +1,15 @@
+class Main {
+
+    /** Initializes a new game and starts it. */    
+    function void main() {
+	   //the object instance of the memory game
+        var MemoryGame game;
+        let game = MemoryGame.new();
+		//starts the game
+        do game.run();
+		//after the game ends the memory of the game must be released
+	    do game.dispose();
+
+        return;
+    }
+}

@@ -1,0 +1,147 @@
+class MemoryGame{
+
+  field int player1Gals,player2Gals;
+  field int numPlayer;
+  field Board board;
+  
+  constructor MemoryGame new(){
+  //Draws the board of the game
+    let board=Board.new();
+	let numPlayer=1;
+	let player1Gals=0;
+	let player2Gals=0;
+	return this;
+  }
+  //release the memory of this game object
+  method void dispose() {    
+        do board.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    //runnig the game
+	method void run() {
+	   var int cellChosen1;
+	   var int cellChosen2;
+	   var Array isEmpty;
+	   var int isCell1Empty;
+	   var int isCell2Empty;
+	   var int Winner;
+       
+	   //isEmpty array says if the image in the cell is hidden or not
+	   //1=hidden
+	   let isEmpty = Array.new(8);
+	   let isEmpty[0]=1;
+	   let isEmpty[1]=1;
+	   let isEmpty[2]=1;
+	   let isEmpty[3]=1;
+	   let isEmpty[4]=1;
+	   let isEmpty[5]=1;
+	   let isEmpty[6]=1;
+	   let isEmpty[7]=1;
+	   
+	   //prints that the beggining turn is player 1
+	   do Output.printString("Player 1       ");
+	   do Output.println();
+	   
+	   //loop until there is 4 goals =all the pairs  were exposed
+	   while((player1Gals+player2Gals)<4){
+	   //enters the first place to open
+	   let cellChosen1=Keyboard.readInt("first cell: ");
+	   //draw the image in this cell
+	   do board.drawCell(cellChosen1,0);
+	   //enters the second place to open
+	   let cellChosen2=Keyboard.readInt("second cell: ");
+	   //Returns the output cursor to the beginning
+	   do Output.moveCursor(0,0);
+	   //Clears the output window on the side
+	   do Output.printString("              ");
+	    do Output.println();
+	   do Output.printString("              ");
+	    do Output.println();
+	   do Output.printString("              ");
+	    do Output.moveCursor(0,0);
+	   //draw the image in this cell
+	   do board.drawCell(cellChosen2,0);
+	  
+	  //gets the numbers of the shapes that in the chosen cells
+	   let isCell1Empty=isEmpty[cellChosen1-1];
+	   let isCell2Empty=isEmpty[cellChosen2-1];
+	   
+	   //check if there is a goal
+	   if((board.cellNumToShapeNum(cellChosen1)=board.cellNumToShapeNum(cellChosen2))&(isCell1Empty=1)&(isCell2Empty=1)){
+	   //if there is goal -enter 0 to the isEmpty array to sign that the cells is open
+	   let isEmpty[cellChosen1-1]=0;
+	   let isEmpty[cellChosen2-1]=0;
+	   
+	   //cheks if the goal to for player 1 or player 2 and update the currect sum playersGals
+	   if(numPlayer=1){
+	     let player1Gals=player1Gals+1;
+	   }
+	   else{
+	   let player2Gals=player2Gals+1;
+	   }
+	   do Output.printString("Gaol!!!");
+	   do Output.moveCursor(0,0);
+	   }
+	   
+	   //not goal
+	   else{
+	   //if the chosen cell was hide before, We'll hide it again
+	   if(isCell1Empty=1){
+	    do board.drawCell(cellChosen1,1);
+		}
+	   if(isCell2Empty=1){	
+	    do board.drawCell(cellChosen2,1);
+		}
+	   }
+	  
+	  //Moves the turn to the next player
+	   if(numPlayer=1){
+	     let numPlayer=2;
+		 do Output.printString("Player 2        ");
+	   }
+	   else{
+	   let numPlayer=1;
+	   do Output.printString("Player 1        ");
+	   }
+	    do Output.println();
+	   }
+	   
+	   do Output.moveCursor(0,0);
+	   
+	   //cheks who is the winner if the game
+	   let Winner=theWinner(player1Gals,player2Gals);
+	   //if winner<3 prints the current winner
+	   if(Winner<3){
+	   do Output.printString("Player ");
+	   do Output.printInt(Winner);
+	   do Output.printString(" win!!!   ");
+	   }
+	   //if winner==3 then teko
+	   else{
+	   do Output.printString(" tie!!!    ");
+	   }
+	   
+	   return;
+	}
+	
+	//check who is the winner in the game
+	method int theWinner(int goals1,int goals2) {
+	//if player 1 is the winner, returns 1
+	 if(goals1>goals2){
+	 return 1;
+	 }
+	 
+	 //if player 1 is the winner, returns 2
+	 if(goals2>goals1){
+	 return 2;
+	 }
+	 
+	 //else - teko-retunrs  3
+	 else{
+	 return 3;
+	 }
+	}
+
+}

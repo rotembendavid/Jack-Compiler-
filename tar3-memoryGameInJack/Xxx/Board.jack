@@ -1,0 +1,116 @@
+class Board{
+    field Array locations;
+	field Array locations;
+    constructor Board new() {
+	
+    //Draws the rows and columns of the game table
+    do Screen.setColor(true);
+	do Screen.drawLine(1,1,509,1);
+	do Screen.drawLine(1,1,1,251);
+	do Screen.drawLine(509,251,509,1);
+	do Screen.drawLine(1,251,509,251);
+	   
+	do Screen.drawLine(1,125,509,125);
+	   
+	do Screen.drawLine(128,1,128,251);
+	do Screen.drawLine(255,1,255,251);
+	do Screen.drawLine(382,1,382,251);
+	
+	//Initializes the locations array by the shapes in the board
+	//1=x 2=v 3=Rectangle 4=Circle
+	let locations = Array.new(8);
+	   //cell(1,1)
+	   let locations[0]=1;
+	   //cell(1,2)
+	   let locations[1]=2;
+	   //cell(1,3)
+	   let locations[2]=3;
+	   //cell(1,4)
+	   let locations[3]=2;
+	   //cell(2,1)
+	   let locations[4]=4;
+	   //cell(2,2)
+	   let locations[5]=3;
+	   //cell(2,3)
+	   let locations[6]=1;
+	   //cell(2,4)
+	   let locations[7]=4;
+	return this;
+    }
+	
+	//release the memory of this board object
+	method void dispose() {  	
+        do Memory.deAlloc(this);
+        return;
+    }
+	
+	//draw the cell according to numCell= the cell that the player wanted to to flip
+	//cover=0 If the drawing is hidden else cover=1
+	method void drawCell(int numCell,int cover){
+	 if(cover=0){
+	 do Screen.setColor(true);
+	 }
+	 else{
+	 do Screen.setColor(false);
+	 }
+	
+	 if(numCell=1){
+	   //draw x
+	   //in place 1,1
+	  do Screen.drawLine(11,11,118,115);
+	  do Screen.drawLine(118,11,11,115);
+	  }
+		
+	   if(numCell=2){
+	     //draw v
+	     //in place 1,2
+	     do Screen.drawLine(178,65,196,94);
+	     do Screen.drawLine(205,31,196,94);
+		 }
+	   
+	   if(numCell=3){
+	   //draw Rectangle
+	   //in place 1,3
+	   do Screen.drawRectangle(275,21,362,105);
+	   }
+	   
+	   if(numCell=4){
+	     //draw v
+	     //in place 1,4
+	   do Screen.drawLine(432,65,450,94);
+	   do Screen.drawLine(459,31,450,94);
+	   }
+	   
+	    if(numCell=5){
+	     //draw Circle
+	   //in place 2,1
+	    do Screen.drawCircle(64,188,40);
+	   }
+	   
+	    if(numCell=6){
+		//draw Rectangle
+	    //in place 2,2
+	      do Screen.drawRectangle(148,145,235,231);
+	   }
+	   
+	    if(numCell=7){
+		//draw x
+	    //in place 2,3,
+	   do Screen.drawLine(265,135,372,241);
+	   do Screen.drawLine(372,135,265,241);
+	   }
+	   
+	   if(numCell=8){
+	    //draw Circle
+	     //in place 2,4
+	   do Screen.drawCircle(446,188,40);
+	   }
+	   return;
+	 }
+	 
+	 //Converts a cell number that the player has entered to the appropriate index in the locations array
+	  method int cellNumToShapeNum(int numCell){
+	  //the array beginnig from index 0
+	   return locations[numCell-1];
+	 }
+}
